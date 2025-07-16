@@ -2,19 +2,23 @@ package gh2;
 
 /* Imports the required audio library from the
  * edu.princeton.cs.introcs package. */
+
 import edu.princeton.cs.introcs.StdAudio;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-/** Tests the GuitarString class.
- *  @author Josh Hug
+/**
+ * Tests the GuitarString class.
+ *
+ * @author Josh Hug
  */
-public class TestGuitarString  {
+public class TestGuitarString {
 
     @Test
     public void testPluckTheAString() {
-        GuitarString aString = new GuitarString(GuitarHeroLite.CONCERT_A);
+        GuitarString aString = new GuitarString(GuitarHero.CONCERT_A);
         aString.pluck();
         for (int i = 0; i < 50000; i += 1) {
             StdAudio.play(aString.sample());
@@ -63,7 +67,7 @@ public class TestGuitarString  {
         double s1 = s.sample();
         s.tic();
         double s2 = s.sample();
-        s.tic(); 
+        s.tic();
         double s3 = s.sample();
         s.tic();
         double s4 = s.sample();
