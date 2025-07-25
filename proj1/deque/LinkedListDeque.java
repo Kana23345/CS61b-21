@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private final Node<T> frontSentinel;
     private final Node<T> lastSentinel;
     private int size;
@@ -30,11 +32,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         size++;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
     public int size() {
         return size;
     }
@@ -48,6 +45,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         }
         System.out.println();
     }
+
 
     @Override
     public T removeFirst() {
@@ -75,18 +73,22 @@ public class LinkedListDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        if (index >= size) {
+        if (index >= size || index < 0 || size == 0) {
             return null;
         } else {
-            int realIndex = (index % size + size) % size;
             Node<T> point = frontSentinel.next;
-            for (int i = 0; i < realIndex; i++) {
+            for (int i = 0; i < index; i++) {
                 point = point.next;
 
             }
             return point.item;
         }
 
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new DequeIterator();
     }
 
     private T recursiveTool(Node<T> p, int index) {
@@ -101,6 +103,37 @@ public class LinkedListDeque<T> implements Deque<T> {
             return null;
         } else {
             return recursiveTool(frontSentinel.next, index);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Deque)) return false;
+        Deque<T> other = (Deque<T>) o;
+        if (other.size() != size) return false;
+        for (int i = 0; i < size; i++) {
+            if (!this.get(i).equals(other.get(i))) return false;
+        }
+        return true;
+    }
+
+    private class DequeIterator implements Iterator<T> {
+        private int curPos;
+
+        DequeIterator() {
+            curPos = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (curPos < size) return true;
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return get(curPos++);
         }
     }
 

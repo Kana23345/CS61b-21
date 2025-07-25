@@ -1,6 +1,8 @@
 package deque;
 
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private T[] array;
     private int nextFirst;
     private int nextLast;
@@ -47,11 +49,6 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    @Override
     public int size() {
         return size;
     }
@@ -69,8 +66,10 @@ public class ArrayDeque<T> implements Deque<T> {
         if (isEmpty())
             return null;
         nextFirst = (nextFirst + 1) % array.length;
+        T t = array[nextFirst];
         size--;
-        return array[nextFirst];
+        array[nextFirst] = null;
+        return t;
 
     }
 
@@ -78,9 +77,11 @@ public class ArrayDeque<T> implements Deque<T> {
     public T removeLast() {
         if (isEmpty())
             return null;
-        size--;
         nextLast = (nextLast - 1 + array.length) % array.length;
-        return array[nextLast];
+        size--;
+        T t = array[nextLast];
+        array[nextLast] = null;
+        return t;
 
     }
 
@@ -92,9 +93,49 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T get(int index) {
-        if (size == 0)
+        if (index >= size || index < 0 || size == 0)
             return null;
         int realIndex = getRealPos((index % size + size) % size);
         return array[realIndex];
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new DequeIterator();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Deque)) return false;
+        Deque<T> other = (Deque<T>) o;
+        if (other.size() != size) return false;
+        for (int i = 0; i < size; i++) {
+            if (!this.get(i).equals(other.get(i))) return false;
+        }
+        return true;
+    }
+
+    private class DequeIterator implements Iterator<T> {
+        private int curPos; // 表示即将访问的索引位置，初始即将访问索引0
+
+        DequeIterator() {
+            curPos = getRealPos(0);
+        }
+
+
+        @Override
+        public boolean hasNext() {
+            if (array[curPos % array.length] != null) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public T next() {
+            return array[curPos++];
+        }
+
     }
 }
