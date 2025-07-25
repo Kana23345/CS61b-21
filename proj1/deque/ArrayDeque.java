@@ -145,7 +145,9 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
         @Override
         public T next() {
-            return array[curPos++];
+            int index = curPos % array.length;
+            curPos++;
+            return array[index];
         }
 
     }
