@@ -31,6 +31,12 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         }
     }
 
+    private void checkOccupancyRate() {
+        if (array.length >= 16 && ((float) size / (float) array.length) <= 0.25) {
+            resizing(size * 2);
+        }
+    }
+
     @Override
     public void addFirst(T item) {
         checkFull();
@@ -69,6 +75,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         T t = array[nextFirst];
         size--;
         array[nextFirst] = null;
+        checkOccupancyRate();
         return t;
 
     }
@@ -81,6 +88,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         size--;
         T t = array[nextLast];
         array[nextLast] = null;
+        checkOccupancyRate();
         return t;
 
     }
@@ -126,7 +134,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
         @Override
         public boolean hasNext() {
-            if (curPos % array.length == nextLast) {
+            if (curPos % array.length == nextLast || curPos >= array.length) {
                 return false;
             }
             if (array[curPos % array.length] != null) {
