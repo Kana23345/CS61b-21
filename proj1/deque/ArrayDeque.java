@@ -134,7 +134,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
 
         @Override
         public boolean hasNext() {
-            if (curPos % array.length == nextLast || curPos >= array.length) {
+            if (curPos % array.length == nextLast) {
                 return false;
             }
             if (array[curPos % array.length] != null) {
