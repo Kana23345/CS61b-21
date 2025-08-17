@@ -1,7 +1,7 @@
 package capers;
 
 import java.io.File;
-import static capers.Utils.*;
+import java.nio.file.Paths;
 
 /** A repository for Capers 
  * @author TODO
@@ -16,6 +16,11 @@ import static capers.Utils.*;
 public class CapersRepository {
     /** Current Working Directory. */
     static final File CWD = new File(System.getProperty("user.dir"));
+
+    //常量
+    static final String dirName =".capers";
+    static final String storyFile ="story";
+    static final String dogsFolder ="dogs";
 
     /** Main metadata folder. */
     static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
@@ -41,6 +46,10 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        File file = Paths.get(dirName,storyFile).toFile();
+        Utils.writeContents(file,text);
+        Utils.readContentsAsString(file);
+
     }
 
     /**
