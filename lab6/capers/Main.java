@@ -42,6 +42,7 @@ public class Main {
         if (args.length == 0) {
             Utils.exitWithError("Must have at least one argument");
         }
+        System.out.println("hhhhhhhhhhhhhh");
 
         CapersRepository.setupPersistence();
         String text;

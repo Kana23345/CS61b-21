@@ -48,8 +48,8 @@ public class CapersRepository {
         // TODO
         File file = Paths.get(dirName,storyFile).toFile();
         Utils.writeContents(file,text);
-        Utils.readContentsAsString(file);
-
+        String content=Utils.readContentsAsString(file);
+        Utils.exitWithError(content);
     }
 
     /**
