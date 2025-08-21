@@ -63,6 +63,7 @@ public class Main {
             CapersRepository.makeDog(args[1],args[2],Integer.parseInt(args[3]));
             // TODO: make a dog
             break;
+
         case "birthday":
             validateNumArgs("birthday", args, 2);
             CapersRepository.celebrateBirthday(args[1]);
